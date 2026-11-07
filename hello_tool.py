@@ -4,8 +4,8 @@ import json, re, sys
 from pathlib import Path
 
 BASE = Path(__file__).resolve().parent
-DATA = BASE / 'data'
-REG = DATA / 'regulations'
+DATA = BASE
+REG = BASE
 
 REGULATIONS = {
     'mobile_device_policy.md': {'title':'生輔組－行動載具管理規則','keywords':['行動載具','手機','平板','載具']},

@@ -10,11 +10,9 @@ const app=express();
 app.disable('x-powered-by');
 app.use(express.json({limit:'32kb'}));
 const ROOT=path.dirname(fileURLToPath(import.meta.url));
-const candidates=[path.join(ROOT,'public','index.html'),path.join(ROOT,'index.html'),path.join(ROOT,'public','ykvs.html'),path.join(ROOT,'ykvs.html')];
-const homepage=candidates.find(p=>fs.existsSync(p));
-app.use(express.static(path.join(ROOT,'public')));
+const homepage=path.join(ROOT,'index.html');
 app.get('/',(req,res)=>{
- if(!homepage)return res.status(503).type('text/plain').send('Homepage missing: expected public/index.html');
+ if(!fs.existsSync(homepage))return res.status(503).type('text/plain').send('Homepage missing: expected index.html');
  res.sendFile(homepage);
 });
 console.log('[HOMEPAGE]',homepage||'MISSING', 'cwd=',process.cwd());
@@ -46,6 +44,6 @@ app.delete('/session/:id',(req,res)=>{clearSession(req.params.id);res.json({ok:t
 if(process.env.ENABLE_TRACE_ENDPOINT==='true'&&process.env.ADMIN_TRACE_TOKEN){
  app.get('/admin/trace/:id',(req,res)=>{if(req.get('x-admin-token')!==process.env.ADMIN_TRACE_TOKEN)return res.sendStatus(403);res.json(traceStore.get(req.params.id)||[])});
 }
-const port=Number(process.env.PORT||3000);app.listen(port,()=>console.log(`Campus Agent V2 listening on ${port}`));
+const port=Number(process.env.PORT||3000);app.listen(port,()=>console.log(`Campus Agent V4 FLAT listening on ${port}`));
 async function startMcp(){try{await mcp.connect();mcpError=null}catch(e){mcpError=e.message;console.error('[MCP_STARTUP]',e.message);setTimeout(startMcp,10000).unref()}}
 startMcp();
