@@ -172,7 +172,21 @@ TOOLS = [
 ]
 
 def ev(title, excerpt, source_id, kind, version='', url=''):
-    return {'title':title,'excerpt':str(excerpt)[:1400],'source_id':source_id,'category':kind,'version':version or '未標示','url':url or None,'url_type':'document' if url else 'unverified'}
+    return {'title':title,'excerpt':str(excerpt)[:1400],'source_id':source_id,'category':kind,'version':version or '未標示','url':url or None,'url_type':'document' if url and '11369' in url else ('directory' if url else 'unverified'),'citation_status':'verified_official_document' if url and '11369' in url else ('official_directory_only' if url else 'local_snapshot_only')}
+
+OFFICIAL_SOURCES = {
+ 'student_leave_rules.md':'https://www.ykvs.ntpc.edu.tw/p/450-1000-11369%2Cc0.php?Lang=zh-tw',
+ 'student_rewards_discipline.md':'https://www.ykvs.ntpc.edu.tw/p/403-1000-287-1.php',
+ 'mobile_device_policy.md':'https://www.ykvs.ntpc.edu.tw/p/403-1000-287-1.php',
+ 'conduct_and_class_order.md':'https://www.ykvs.ntpc.edu.tw/p/403-1000-287-1.php',
+}
+
+OFFICIAL_SOURCES = {
+ 'student_leave_rules.md':'https://www.ykvs.ntpc.edu.tw/p/450-1000-11369%2Cc0.php?Lang=zh-tw',
+ 'student_rewards_discipline.md':'https://www.ykvs.ntpc.edu.tw/p/403-1000-287-1.php',
+ 'mobile_device_policy.md':'https://www.ykvs.ntpc.edu.tw/p/403-1000-287-1.php',
+ 'conduct_and_class_order.md':'https://www.ykvs.ntpc.edu.tw/p/403-1000-287-1.php',
+}
 
 def query_tool(name, q):
     q=str(q or '').strip()[:500]
@@ -188,7 +202,7 @@ def query_tool(name, q):
                     lines=[x.strip() for x in txt.splitlines() if x.strip()]
                     scored=sorted(((sum(1 for k in meta['keywords'] if k in x)+sum(1 for t in re.findall(r'[\u4e00-\u9fff]{2,5}',q) if t in x),i,x) for i,x in enumerate(lines)),reverse=True)
                     snippets=[x for score,i,x in scored[:5] if score>0] or lines[:5]
-                    evidence.append(ev(meta['title'],'\n'.join(snippets),f'data/regulations/{fn}','regulation'))
+                    evidence.append(ev(meta['title'],'\n'.join(snippets),f'data/regulations/{fn}','regulation',url=OFFICIAL_SOURCES.get(fn,'')))
         for r in academic_regulation_results(q):
             evidence.append(ev(r.get('標題','教務規定'),r.get('摘要',''),'data/additional_regulations.json','procedure'))
     if name in ('search_contacts','search_school_info'):

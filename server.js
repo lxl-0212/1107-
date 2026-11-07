@@ -1,9 +1,16 @@
 import 'dotenv/config';
 import express from 'express';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
 import {MCPClient} from './mcp-client.js';
 import {CampusAgent,newId,sanitizeLog} from './agent.js';
 import {session,clearSession} from './session-store.js';
-const app=express();app.disable('x-powered-by');app.use(express.json({limit:'32kb'}));app.use(express.static('public'));
+const app=express();
+const ROOT=path.dirname(fileURLToPath(import.meta.url));
+app.disable('x-powered-by');
+app.use(express.json({limit:'32kb'}));
+app.use(express.static(path.join(ROOT,'public')));
+app.get('/',(_req,res)=>res.sendFile(path.join(ROOT,'public','index.html')));
 const mcp=new MCPClient();const agent=new CampusAgent(mcp);let mcpError=null;
 const traceStore=new Map();const MAX_TRACES=300;
 app.get('/healthz',(_,res)=>res.json({ok:true,mcpReady:mcp.ready,mcpTools:mcp.tools.map(t=>t.name),openaiConfigured:!!process.env.OPENAI_API_KEY,mcpError}));

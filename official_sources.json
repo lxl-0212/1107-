@@ -1,0 +1,26 @@
+[
+  {
+    "local_file": "student_leave_rules.md",
+    "url": "https://www.ykvs.ntpc.edu.tw/p/450-1000-11369%2Cc0.php?Lang=zh-tw",
+    "verification": "document",
+    "note": "官方文件直連"
+  },
+  {
+    "local_file": "student_rewards_discipline.md",
+    "url": "https://www.ykvs.ntpc.edu.tw/p/403-1000-287-1.php",
+    "verification": "directory",
+    "note": "僅官方規定目錄，非該文件直連"
+  },
+  {
+    "local_file": "mobile_device_policy.md",
+    "url": "https://www.ykvs.ntpc.edu.tw/p/403-1000-287-1.php",
+    "verification": "directory",
+    "note": "僅官方規定目錄，非該文件直連"
+  },
+  {
+    "local_file": "conduct_and_class_order.md",
+    "url": "https://www.ykvs.ntpc.edu.tw/p/403-1000-287-1.php",
+    "verification": "directory",
+    "note": "僅官方規定目錄，非該文件直連"
+  }
+]
