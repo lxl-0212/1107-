@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: ykvs-campus-agent-v2
+    runtime: docker
+    healthCheckPath: /healthz
+    autoDeploy: true
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
+        value: gpt-4.1-mini
+      - key: PYTHON_BIN
+        value: python3
