@@ -13,6 +13,7 @@ COPY requirements.txt ./
 RUN python3 -m pip install --no-cache-dir --break-system-packages -r requirements.txt
 
 COPY . .
+RUN test -s /app/public/index.html && test -s /app/server.js
 
 ENV NODE_ENV=production
 ENV PYTHON_BIN=python3
